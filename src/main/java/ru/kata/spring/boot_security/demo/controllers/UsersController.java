@@ -75,15 +75,19 @@ public class UsersController {
     @GetMapping("admin/{id}/edit")
     public String edit(Model model, @PathVariable("id") long id) {
         model.addAttribute("user", crudService.show(id));
+        List<Role> roles = crudService.indexRoles();
+        model.addAttribute("allRoles", roles);
         return "/edit";
     }
 
     @PatchMapping("admin/{id}")
-    public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
+    public String update(Model model, @ModelAttribute("user") @Valid User user, BindingResult bindingResult,
                          @PathVariable("id") long id) {
 
         userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
+            List<Role> roles = crudService.indexRoles();
+            model.addAttribute("allRoles", roles);
             return "/edit";
         }
         crudService.update(id, user);

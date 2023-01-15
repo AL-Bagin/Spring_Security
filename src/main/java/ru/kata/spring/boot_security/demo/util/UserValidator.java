@@ -27,6 +27,14 @@ public class UserValidator implements Validator {
     public void validate(Object target, Errors errors) {
         User user = (User)target;
 
+        //        Проверяем меняют ли эмеил
+        try {
+            User ValidUser = userService.findByName(user.getName());
+            if (ValidUser.getId() == user.getId()) {
+                return;
+            }
+        } catch (Exception ignored) {}
+
         try {
             userService.loadUserByUsername(user.getName());
         } catch (UsernameNotFoundException ignored) {
