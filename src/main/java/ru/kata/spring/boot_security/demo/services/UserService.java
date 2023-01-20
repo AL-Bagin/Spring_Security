@@ -38,7 +38,6 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    @Transactional
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
         User user = findByName(name);
         if (user == null) {
@@ -46,9 +45,4 @@ public class UserService implements UserDetailsService {
         }
         return user;
     }
-
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
-    }
-
 }
