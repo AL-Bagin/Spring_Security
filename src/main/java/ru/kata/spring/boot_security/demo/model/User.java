@@ -2,6 +2,8 @@ package ru.kata.spring.boot_security.demo.model;
 
 
 import jdk.jfr.Name;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,7 +39,8 @@ public class User implements UserDetails {
     private String email;
 
     @NotEmpty(message = "У пользователя должна быть роль")
-    @ManyToMany(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.JOIN)
+    @ManyToMany(fetch = FetchType.LAZY)
     private Collection<Role> roles;
     public User() {
     }
